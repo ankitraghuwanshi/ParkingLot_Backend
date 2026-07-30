@@ -68,8 +68,9 @@ public class TicketService {
         }
 
         //5.
-        ParkingSpotAssignmentStrategy parkingSpotAssignmentStrategy = ParkingSpotAssignmentStrategyFactory
-                .getParkingSpotAssignmentStrategy(parkingSpotAssignmentStrategyType)
+        ParkingSpotAssignmentStrategy parkingSpotAssignmentStrategy =
+                ParkingSpotAssignmentStrategyFactory
+                        .getParkingSpotAssignmentStrategy(parkingSpotAssignmentStrategyType);
 
         //prevent null pointer exception for parkingSpot
         ParkingSpot parkingSpot=null;
