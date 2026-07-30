@@ -42,3 +42,12 @@ public class Main {
         Ticket ticket = ticketController.generateTicket(requestDto).getTicket();
     }
 }
+/*
+so in parkingLot project (without completing) we understand that
+we need Dependency Injection Framework like Spring Framework so that
+it automatically make dependent object without us
+as we seen above main class that
+Ticket dependent on TicketController,
+TicketController dependent on TicketService,
+TicketService dependent on 3 Repository like gate,vehicle,ticket Repository
+*/
