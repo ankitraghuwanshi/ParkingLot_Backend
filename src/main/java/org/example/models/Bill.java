@@ -1,12 +1,13 @@
 package org.example.models;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class Bill extends BaseModel{
     private String billNumber;
     private double amount;
-    private LocalDateTime exitTime;
+    private Date exitTime;
     private Ticket ticket;
     private Operator operator;
     private Gate gate;
@@ -29,11 +30,11 @@ public class Bill extends BaseModel{
         this.amount = amount;
     }
 
-    public LocalDateTime getExitTime() {
+    public Date getExitTime() {
         return exitTime;
     }
 
-    public void setExitTime(LocalDateTime exitTime) {
+    public void setExitTime(Date exitTime) {
         this.exitTime = exitTime;
     }
 

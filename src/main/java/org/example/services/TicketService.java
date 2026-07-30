@@ -1,20 +1,28 @@
 package org.example.services;
 
 import org.example.exceptions.GateNotFoundException;
+import org.example.factory.ParkingSpotAssignmentStrategyFactory;
 import org.example.models.*;
 import org.example.repositories.GateRepository;
+import org.example.repositories.TicketRepository;
 import org.example.repositories.VehicleRepository;
+import org.example.strategy.ParkingSpotAssignmentStrategy;
 import org.example.strategy.ParkingSpotAssignmentStrategyType;
 
+import java.util.Date;
 import java.util.Optional;
 
 public class TicketService {
     private GateRepository gateRepository;
     private VehicleRepository vehicleRepository;
+    private TicketRepository ticketRepository;
 
-    public TicketService(GateRepository gateRepository,  VehicleRepository vehicleRepository) {
+    public TicketService(GateRepository gateRepository,
+                         VehicleRepository vehicleRepository,
+                         TicketRepository ticketRepository) {
         this.gateRepository = gateRepository;
         this.vehicleRepository = vehicleRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     public Ticket generateTicket(Long gateId,
@@ -22,6 +30,7 @@ public class TicketService {
                                  String userName,
                                  VehicleType vehicleType,
                                  ParkingSpotAssignmentStrategyType parkingSpotAssignmentStrategyType) throws GateNotFoundException {
+
         /*steps
         1.get gate object from DB (for gate we need gate repository)
         2.if gateId is invalid throw an exception
@@ -59,9 +68,23 @@ public class TicketService {
         }
 
         //5.
-        //ParkingSpot parkingSpot=;
+        ParkingSpotAssignmentStrategy parkingSpotAssignmentStrategy = ParkingSpotAssignmentStrategyFactory
+                .getParkingSpotAssignmentStrategy(parkingSpotAssignmentStrategyType)
 
+        //prevent null pointer exception for parkingSpot
+        ParkingSpot parkingSpot=null;
 
-        return null;
+        if(parkingSpotAssignmentStrategy != null) {
+            parkingSpot=parkingSpotAssignmentStrategy.assignParkingSpot(vehicle);
+        }
+
+        Ticket ticket=new Ticket();
+        ticket.setGate(gate);
+        ticket.setVehicle(vehicle);
+        ticket.setParkingSpot(parkingSpot);
+        ticket.setEntryTime(new Date());
+
+        //save the ticket to DB
+        return ticketRepository.save(ticket);
     }
 }
